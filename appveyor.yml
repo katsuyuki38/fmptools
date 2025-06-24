@@ -1,0 +1,40 @@
+version: 1.0.{build}
+image: Visual Studio 2022
+
+install:
+  - choco install msys2 --yes
+  - refreshenv
+
+build_script:
+  - ps: |
+      $msysBash = 'C:\tools\msys64\usr\bin\bash.exe'
+
+      $shScript = @'
+export MSYSTEM=MSYS
+cd "$1"
+autoreconf -i -f
+
+export MSYSTEM=MINGW64
+export PATH=/mingw64/bin:/usr/bin:$PATH
+cd "$1"
+./configure --prefix=/mingw64
+make
+'@
+      $shPath = "$Env:APPVEYOR_BUILD_FOLDER\build_fmp.sh"
+      $shScript | Set-Content -Encoding ASCII $shPath
+
+      $drive = $Env:APPVEYOR_BUILD_FOLDER.Substring(0,1).ToLower()
+      $rest = $Env:APPVEYOR_BUILD_FOLDER.Substring(2).TrimStart('\') -replace '\\','/'
+      $msysPath = "/$drive/$rest"
+
+      & $msysBash -lc 'pacman -Syuu --noconfirm || true'
+      & $msysBash -lc 'pacman -Sy --noconfirm --needed autoconf automake libtool pkg-config sed coreutils make'
+      & $msysBash -lc 'pacman -Sy --noconfirm --needed mingw-w64-x86_64-toolchain mingw-w64-x86_64-yajl'
+
+      & $msysBash -lc "bash $msysPath/build_fmp.sh $msysPath"
+
+      Copy-Item -Path 'src/fmp2json.exe' -Destination "$Env:APPVEYOR_BUILD_FOLDER\fmp2json.exe"
+
+artifacts:
+  - path: fmp2json.exe
+    name: fmp2json-win64
