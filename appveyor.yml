@@ -40,3 +40,7 @@ build_script:
 artifacts:
   - path: fmp2json.exe
     name: fmp2json-win64
+  - path: fmp2sqlite.exe
+    name: fmp2sqlite-win64
+  - path: fmpdump.exe
+    name: fmpdump-win64
