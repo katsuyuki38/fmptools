@@ -34,7 +34,7 @@ build_script:
 
       & $msysBash -lc "bash $msysPath/build_fmp.sh $msysPath"
 
-      Copy-Item -Path 'fmp2json.exe' -Destination "$Env:APPVEYOR_BUILD_FOLDER\fmp2json.exe"
+      Copy-Item -Path 'fmp2json.exe' -Destination "$Env:APPVEYOR_BUILD_FOLDER\fmp2json.exe" -Force -ErrorAction SilentlyContinue
 
 
 artifacts:
