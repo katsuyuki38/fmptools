@@ -34,6 +34,11 @@ build_script:
 
       & $msysBash -lc "bash $msysPath/build_fmp.sh $msysPath"
 
+      # 念のため exe をルートにコピーして artifact に含める
+      Copy-Item "$Env:APPVEYOR_BUILD_FOLDER\src\bin\fmp2json.exe" -Destination "$Env:APPVEYOR_BUILD_FOLDER\fmp2json.exe" -Force -ErrorAction SilentlyContinue
+      Copy-Item "$Env:APPVEYOR_BUILD_FOLDER\src\bin\fmp2sqlite.exe" -Destination "$Env:APPVEYOR_BUILD_FOLDER\fmp2sqlite.exe" -Force -ErrorAction SilentlyContinue
+      Copy-Item "$Env:APPVEYOR_BUILD_FOLDER\src\bin\fmpdump.exe" -Destination "$Env:APPVEYOR_BUILD_FOLDER\fmpdump.exe" -Force -ErrorAction SilentlyContinue
+
 artifacts:
   - path: fmp2json.exe
     name: fmp2json-win64
