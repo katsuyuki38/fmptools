@@ -33,6 +33,7 @@ build_script:
       & $msysBash -lc 'pacman -Sy --noconfirm --needed mingw-w64-x86_64-toolchain mingw-w64-x86_64-yajl'
 
       & $msysBash -lc "bash $msysPath/build_fmp.sh $msysPath"
+      & $msysBash -lc "ls -lh $msysPath/src/bin"
 
 artifacts:
   - path: src/bin/fmp2json.exe
