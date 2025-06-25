@@ -36,9 +36,9 @@ build_script:
       & $msysBash -lc "ls -lh $msysPath/src/bin"
 
 artifacts:
-  - path: src/bin/fmp2json.exe
+  - path: fmp2json.exe
     name: fmp2json-win64
-  - path: src/bin/fmp2sqlite.exe
+  - path: fmp2sqlite.exe
     name: fmp2sqlite-win64
-  - path: src/bin/fmpdump.exe
+  - path: fmpdump.exe
     name: fmpdump-win64
